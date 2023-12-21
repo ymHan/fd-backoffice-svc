@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Sector } from '@model/entities/sector.entity';
-import { Venue } from '@model/entities/Venue.entity';
+import { Venue } from '@model/entities/venue.entity';
 
 import { CreateSectorRequestDto, GetSectorRequestDto, ListSectorRequestDto, UpdateSectorRequestDto } from '@model/dto/sector.dto';
 import { CreateSectorResponse, GetSectorResponse, ListSectorResponse, UpdateSectorResponse } from '@proto/backoffice.pb';
@@ -44,6 +44,8 @@ export class SectorService {
   public async GetSector({ id }: GetSectorRequestDto): Promise<GetSectorResponse> {
     const sector: Sector = await this.sectorRepository.findOne({ where: { id } });
     const sportsId: string = (await this.venueRepository.findOne({ where: { id: sector.venueId } })).sportsId;
+    const fId: string = `${sector.customerId}${sportsId}${sector.venueId}${sector.id}`;
+    console.log(fId);
     if (!sector) {
       return {
         status: HttpStatus.NOT_FOUND,
@@ -57,11 +59,12 @@ export class SectorService {
       result: {
         sector: {
           id: sector.id,
-          sportsId: sportsId,
           customerId: sector.customerId,
           venueId: sector.venueId,
           name: sector.name,
           description: sector.description,
+          sportsId: sportsId,
+          fId,
         },
       },
       error: null,
