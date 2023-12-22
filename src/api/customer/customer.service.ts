@@ -8,12 +8,7 @@ import {
   UpdateCustomerRequestDto,
 } from '@model/dto/customer.dto';
 import { Customer } from '@model/entities/customer.entity';
-import {
-  CreateCustomerResponse,
-  GetCustomerResponse,
-  ListCustomerResponse,
-  UpdateCustomerResponse,
-} from '@proto/backoffice.pb';
+import { CreateCustomerResponse, GetCustomerResponse, ListCustomerResponse, UpdateCustomerResponse } from '@proto/backoffice.pb';
 
 @Injectable()
 export class CustomerService {

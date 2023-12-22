@@ -45,7 +45,6 @@ export class SectorService {
     const sector: Sector = await this.sectorRepository.findOne({ where: { id } });
     const sportsId: string = (await this.venueRepository.findOne({ where: { id: sector.venueId } })).sportsId;
     const fId: string = `${sector.customerId}${sportsId}${sector.venueId}${sector.id}`;
-    console.log(fId);
     if (!sector) {
       return {
         status: HttpStatus.NOT_FOUND,
