@@ -11,7 +11,7 @@ import { SectorModule } from './api/sector/sector.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.prod',
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.prod.dev' : '.env.prod.prod',
       ignoreEnvFile: process.env.NODE_ENV === 'prod',
     }),
     TypeOrmModule.forRoot(ormConfig[0]),
