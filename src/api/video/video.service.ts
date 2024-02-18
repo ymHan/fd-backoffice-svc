@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from '@model/entities/video.entity';
 import { Category, CategorySubEnum, CategorySubCodeEnum, RecordType } from '@model/enum';
-import * as dayjs from 'dayjs';
 
 import {
   V1CreateVideoRequest,
@@ -20,6 +19,25 @@ import {
 export class VideoService {
   @InjectRepository(Video)
   private readonly videoRepository: Repository<Video>;
+
+  public async V1DeleteVideo(payload: V1DeleteVideoRequest): Promise<any> {
+    const video = await this.videoRepository.findOne({ where: { id: payload.id } });
+    if (!video) {
+      return {
+        result: 'fail',
+        status: 404,
+        message: 'Video not found',
+        data: null,
+      };
+    }
+    await this.videoRepository.delete({ id: payload.id });
+    return {
+      result: 'success',
+      status: 200,
+      message: 'Video deleted successfully',
+      data: null,
+    };
+  }
 
   public async V1ListVideo(payload: V1ListVideoRequest): Promise<any> {
     const basicMeta = {

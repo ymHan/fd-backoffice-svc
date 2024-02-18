@@ -7,7 +7,7 @@ import {
   V1GetVideoRequest,
   V1GetVideoResponse,
   V1ListVideoRequest,
-  V1ListVideoResponse,
+  V1DeleteVideoRequest,
 } from '@proto/backoffice.pb';
 
 import { VideoService } from './video.service';
@@ -30,5 +30,10 @@ export class VideoController {
   @GrpcMethod(VIDEO_SERVICE_NAME, 'V1ListVideo')
   private v1ListVideo(payload: V1ListVideoRequest): Promise<any> {
     return this.videoService.V1ListVideo(payload);
+  }
+
+  @GrpcMethod(VIDEO_SERVICE_NAME, 'V1DeleteVideo')
+  private v1DeleteVideo(payload: V1DeleteVideoRequest): Promise<any> {
+    return this.videoService.V1DeleteVideo(payload);
   }
 }
