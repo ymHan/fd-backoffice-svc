@@ -4,16 +4,7 @@ import { Repository } from 'typeorm';
 import { Video } from '@model/entities/video.entity';
 import { Category, CategorySubEnum, CategorySubCodeEnum, RecordType } from '@model/enum';
 
-import {
-  V1CreateVideoRequest,
-  V1CreateVideoResponse,
-  V1GetVideoRequest,
-  V1GetVideoResponse,
-  V1ListVideoRequest,
-  V1ListVideoResponse,
-  V1DeleteVideoRequest,
-  V1DeleteVideoResponse,
-} from '@proto/backoffice.pb';
+import { V1CreateVideoRequest, V1GetVideoRequest, V1ListVideoRequest, V1DeleteVideoRequest } from '@proto/backoffice.pb';
 
 @Injectable()
 export class VideoService {
@@ -43,7 +34,7 @@ export class VideoService {
     const basicMeta = {
       page: payload.page || 1,
       limit: payload.limit || 10,
-      sort: payload.sort || 'created_at',
+      sort: payload.sort || 'createdAt',
       order: payload.order || 'DESC',
     };
 
@@ -76,8 +67,8 @@ export class VideoService {
       ])
       .skip((basicMeta.page - 1) * basicMeta.limit)
       .take(basicMeta.limit)
+      .orderBy(`video.${basicMeta.sort}`, basicMeta.order.toUpperCase() as 'ASC' | 'DESC')
       .getManyAndCount();
-
 
     const meta = Object.assign(basicMeta, {
       totalCount: total,
@@ -131,13 +122,13 @@ export class VideoService {
     video.poseIndicatorList = payload.poseIndicatorList;
     video.nodeId = payload.nodeId;
 
-    const datas = await this.videoRepository.save(video);
+    const returnData = await this.videoRepository.save(video);
 
     return {
       result: 'success',
       status: 200,
       message: 'Video created successfully',
-      data: datas
+      data: returnData,
     };
   }
 }
