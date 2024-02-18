@@ -3,12 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from '@model/entities/video.entity';
 import { Category, CategorySubEnum, CategorySubCodeEnum, RecordType } from '@model/enum';
+import * as dayjs from 'dayjs';
 
 import {
   V1CreateVideoRequest,
   V1CreateVideoResponse,
   V1GetVideoRequest,
   V1GetVideoResponse,
+  V1ListVideoRequest,
+  V1ListVideoResponse,
+  V1DeleteVideoRequest,
+  V1DeleteVideoResponse,
 } from '@proto/backoffice.pb';
 
 @Injectable()
@@ -16,7 +21,60 @@ export class VideoService {
   @InjectRepository(Video)
   private readonly videoRepository: Repository<Video>;
 
-  public async V1GetVideo(payload: V1GetVideoRequest): Promise<V1GetVideoResponse> {
+  public async V1ListVideo(payload: V1ListVideoRequest): Promise<any> {
+    const basicMeta = {
+      page: payload.page || 1,
+      limit: payload.limit || 10,
+      sort: payload.sort || 'created_at',
+      order: payload.order || 'DESC',
+    };
+
+    const queryBuilder = this.videoRepository.createQueryBuilder('video');
+    const [videos, total] = await queryBuilder
+      .select([
+        'video.id',
+        'video.email',
+        'video.title',
+        'video.subTitle',
+        'video.subTitle',
+        'video.description',
+        'video.ownerName',
+        'video.ownerNickName',
+        'video.ownerChannelName',
+        'video.ownerProfileIconUrl',
+        'video.thumbnailUrl',
+        'video.viewCount',
+        'video.reportCount',
+        'video.likesCount',
+        'video.duration',
+        'video.category',
+        'video.categorySub',
+        'video.categorySubCode',
+        'video.recordType',
+        'video.contentUrlList',
+        'video.poseIndicatorList',
+        'video.nodeId',
+        'video.createdAt',
+      ])
+      .skip((basicMeta.page - 1) * basicMeta.limit)
+      .take(basicMeta.limit)
+      .getManyAndCount();
+
+
+    const meta = Object.assign(basicMeta, {
+      totalCount: total,
+      totalPage: Math.ceil(total / basicMeta.limit),
+    });
+
+    return {
+      result: 'success',
+      status: 200,
+      message: 'Video list retrieved successfully',
+      meta: meta,
+      data: videos,
+    };
+  }
+  public async V1GetVideo(payload: V1GetVideoRequest): Promise<any> {
     const video = await this.videoRepository.findOne({ where: { id: payload.id } });
     if (!video) {
       return {
@@ -30,34 +88,11 @@ export class VideoService {
       result: 'success',
       status: 200,
       message: 'Video retrieved successfully',
-      data: {
-        id: video.id,
-        email: video.email,
-        title: video.title,
-        subTitle: video.subTitle,
-        description: video.description,
-        ownerName: video.ownerName,
-        ownerNickName: video.ownerNickName,
-        ownerChannelName: video.ownerChannelName,
-        ownerProfileIconUrl: video.ownerProfileIconUrl,
-        thumbnailUrl: video.thumbnailUrl,
-        viewCount: video.viewCount,
-        reportCount: video.reportCount,
-        likesCount: video.likesCount,
-        duration: video.duration,
-        category: video.category,
-        categorySub: video.categorySub,
-        categorySubCode: video.categorySubCode,
-        recordType: video.recordType,
-        contentUrlList: video.contentUrlList,
-        poseIndicatorList: video.poseIndicatorList,
-        nodeId: video.nodeId,
-        createdAt: video.created_at,
-      },
+      data: video,
     };
   }
 
-  public async V1CreateVideo(payload: V1CreateVideoRequest): Promise<V1CreateVideoResponse> {
+  public async V1CreateVideo(payload: V1CreateVideoRequest): Promise<any> {
     const video: Video = new Video();
 
     video.email = payload.email;
@@ -84,30 +119,7 @@ export class VideoService {
       result: 'success',
       status: 200,
       message: 'Video created successfully',
-      data: {
-        id: datas.id,
-        email: datas.email,
-        title: datas.title,
-        subTitle: datas.subTitle,
-        description: datas.description,
-        ownerName: datas.ownerName,
-        ownerNickName: datas.ownerNickName,
-        ownerChannelName: datas.ownerChannelName,
-        ownerProfileIconUrl: datas.ownerProfileIconUrl,
-        thumbnailUrl: datas.thumbnailUrl,
-        viewCount: datas.viewCount,
-        reportCount: datas.reportCount,
-        likesCount: datas.likesCount,
-        duration: datas.duration,
-        category: datas.category,
-        categorySub: datas.categorySub,
-        categorySubCode: datas.categorySubCode,
-        recordType: datas.recordType,
-        contentUrlList: datas.contentUrlList,
-        poseIndicatorList: datas.poseIndicatorList,
-        nodeId: datas.nodeId,
-        createdAt: datas.created_at,
-      },
+      data: datas
     };
   }
 }
