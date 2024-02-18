@@ -11,7 +11,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: protobufPackage,
-      url: '0.0.0.0:50052',
+      url: '0.0.0.0:50054',
       protoPath: join('node_modules/fd-proto/proto/backoffice.proto'),
     },
   });
