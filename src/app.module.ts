@@ -9,6 +9,7 @@ import { SectorModule } from './api/sector/sector.module';
 import { CategoryModule } from './api/category/category.module';
 import { MwcModule } from './api/mwc/mwc.module';
 import { VideoModule } from '@root/api/video/video.module';
+import { AppVersionModule } from './api/appversioning/appversion.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { VideoModule } from '@root/api/video/video.module';
     CategoryModule,
     MwcModule,
     VideoModule,
+    AppVersionModule,
   ],
 })
 export class AppModule {}
