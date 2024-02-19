@@ -19,7 +19,7 @@ export class MwcService {
       };
     });
     map.sort((a, b) => b.index - a.index);
-
+console.log(`${process.env.MWC_FILE_PATH}`);
     return {
       status: 'success',
       message: 'List of files',
