@@ -7,19 +7,19 @@ dotenv.config();
 @Injectable()
 export class MwcService {
   public async listMwc(): Promise<ListMwcResponse> {
-    const files = await fs.readdir(`${process.env.MWC_FILE_PATH}/20240215`);
+    const files = await fs.readdir(`${process.env.MWC_FILE_PATH}/${this.getDates()}`);
     const videos = files.filter((f) => f.includes('.mp4'));
     const map = videos.map((f) => {
       return {
         index: parseInt(f.split('.')[0].split('_')[0], 10),
         video: f,
         thumbnail: `${this.getFileName(f)}.jpg`,
-        download: `${process.env.MWC_DOWNLOAD_PATH}/20240215/${f}`,
+        download: `${process.env.MWC_DOWNLOAD_PATH}/${this.getDates()}/${f}`,
         link: `/${this.makeLink(f)}`,
       };
     });
     map.sort((a, b) => b.index - a.index);
-console.log(`${process.env.MWC_FILE_PATH}`);
+
     return {
       status: 'success',
       message: 'List of files',
