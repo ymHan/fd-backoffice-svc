@@ -13,7 +13,7 @@ export class MwcService {
       return {
         index: parseInt(f.split('.')[0].split('_')[0], 10),
         video: f,
-        thumbnail: `${this.getFileName(f)}.jpg`,
+        thumbnail: `${this.getFileName(f)}.png`,
         download: `${process.env.MWC_DOWNLOAD_PATH}/${this.getDates()}/${f}`,
         link: `/${this.makeLink(f)}`,
       };
