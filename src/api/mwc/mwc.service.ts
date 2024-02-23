@@ -1,17 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { ListMwcResponse, GetMwcRequest, GetMwcResponse, FileDownloadRequest } from '@proto/backoffice.pb';
+import {
+  ListMwcResponse,
+  GetMwcRequest,
+  GetMwcResponse,
+  FileDownloadRequest,
+  FileDownloadResponse,
+} from '@proto/backoffice.pb';
 import * as fs from 'fs/promises';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Injectable()
 export class MwcService {
-  public async fileDownload(filename: FileDownloadRequest): Promise<string> {
-    return `${process.env.MWC_FILE_PATH}/${this.getDates()}/${filename}`;
+  public async fileDownload(payload: FileDownloadRequest): Promise<FileDownloadResponse> {
+    const { filename } = payload;
+    const downloadUrl = `${process.env.MWC_DOWNLOAD_PATH}/${this.getDates()}/${filename}`;
+
+    return { downloadUrl };
   }
 
   public async listMwc(): Promise<ListMwcResponse> {
+    console.log(`${process.env.MWC_FILE_PATH}`)
     const files = await fs.readdir(`${process.env.MWC_FILE_PATH}/${this.getDates()}`);
+    console.log(files);
     const videos = files.filter((f) => f.includes('.mp4'));
     const map = videos.map((f) => {
       return {

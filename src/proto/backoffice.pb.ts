@@ -755,6 +755,10 @@ export interface FileDownloadRequest {
   filename: string;
 }
 
+export interface FileDownloadResponse {
+  downloadUrl: string;
+}
+
 export interface GetMwcRequest {
   index: number;
   filename: string;
@@ -1272,7 +1276,7 @@ export interface MwcServiceClient {
 
   getMwc(request: GetMwcRequest): Observable<GetMwcResponse>;
 
-  fileDownload(request: FileDownloadRequest): Observable<Empty>;
+  fileDownload(request: FileDownloadRequest): Observable<FileDownloadResponse>;
 }
 
 /**
@@ -1286,7 +1290,9 @@ export interface MwcServiceController {
 
   getMwc(request: GetMwcRequest): Promise<GetMwcResponse> | Observable<GetMwcResponse> | GetMwcResponse;
 
-  fileDownload(request: FileDownloadRequest): void;
+  fileDownload(
+    request: FileDownloadRequest,
+  ): Promise<FileDownloadResponse> | Observable<FileDownloadResponse> | FileDownloadResponse;
 }
 
 export function MwcServiceControllerMethods() {

@@ -7,7 +7,7 @@ import {
   ListMwcResponse,
   GetMwcResponse,
   GetMwcRequest,
-  FileDownloadRequest,
+  FileDownloadRequest, FileDownloadResponse,
 } from '@proto/backoffice.pb';
 
 @Controller()
@@ -16,6 +16,7 @@ export class MwcController {
   private readonly mwcService: MwcService;
 
   @GrpcMethod(MWC_SERVICE_NAME, 'listMwc')
+  
   private listMwc(): Promise<ListMwcResponse> {
     return this.mwcService.listMwc();
   }
@@ -26,7 +27,18 @@ export class MwcController {
   }
 
   @GrpcMethod(MWC_SERVICE_NAME, 'fileDownload')
-  private fileDownload(payload: FileDownloadRequest): Promise<string> {
+  private fileDownload(payload: FileDownloadRequest): Promise<FileDownloadResponse> {
     return this.mwcService.fileDownload(payload);
+  }
+  private getDates() {
+    let months = '';
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    if (month < 10) {
+      months = `0${month}`;
+    }
+    const day = date.getDate();
+    return `${year}${months}${day}`;
   }
 }
