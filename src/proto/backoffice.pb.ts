@@ -1280,7 +1280,7 @@ export const CATEGORY_SERVICE_NAME = "CategoryService";
 export interface MwcServiceClient {
   listMwc(request: Empty): Observable<ListMwcResponse>;
 
-  listMwc2(request: ListMwcRequest): Observable<ListMwcResponse>;
+  listMwcPath(request: ListMwcRequest): Observable<ListMwcResponse>;
 
   getMwc(request: GetMwcRequest): Observable<GetMwcResponse>;
 
@@ -1296,7 +1296,7 @@ export interface MwcServiceClient {
 export interface MwcServiceController {
   listMwc(request: Empty): Promise<ListMwcResponse> | Observable<ListMwcResponse> | ListMwcResponse;
 
-  listMwc2(request: ListMwcRequest): Promise<ListMwcResponse> | Observable<ListMwcResponse> | ListMwcResponse;
+  listMwcPath(request: ListMwcRequest): Promise<ListMwcResponse> | Observable<ListMwcResponse> | ListMwcResponse;
 
   getMwc(request: GetMwcRequest): Promise<GetMwcResponse> | Observable<GetMwcResponse> | GetMwcResponse;
 
@@ -1305,7 +1305,7 @@ export interface MwcServiceController {
 
 export function MwcServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["listMwc", "listMwc2", "getMwc", "addHtml"];
+    const grpcMethods: string[] = ["listMwc", "listMwcPath", "getMwc", "addHtml"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("MwcService", method)(constructor.prototype[method], method, descriptor);

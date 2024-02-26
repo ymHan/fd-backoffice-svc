@@ -13,15 +13,8 @@ export class MwcService {
     const mp4File = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`);
     const htmlFile = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`);
 
-    if (!mp4File || !htmlFile) {
-      return {
-        result: 'fail',
-        status: 400,
-        message: 'file not found',
-      };
-    }
-
     if (!mp4File) {
+      // /src/app/download에 파일이 없으면 /tmp/ossfs-de/de-01/mwc/오늘날짜에 있는 파일을 /src/app/download로 mp4 및 html 파일 복사
       await fsp.cp(
         `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
         `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`,
@@ -46,7 +39,47 @@ export class MwcService {
   }
 
   public async listMwc(): Promise<ListMwcResponse> {
+    const dirExists = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}`);
+    if (!dirExists) {
+      return {
+        status: 'error',
+        message: 'Directory not found',
+        data: null,
+      };
+    }
     const files = await fsp.readdir(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}`);
+    const videos = files.filter((f) => f.includes('.mp4'));
+    const map = videos.map((f) => {
+      return {
+        index: parseInt(f.split('.')[0].split('_')[0], 10),
+        video: f,
+        thumbnail: `${this.getFileName(f)}.jpg`,
+        download: `${process.env.MWC_DOWNLOAD_PATH_DE}/${this.getDates()}/${f}`,
+        link: `/${this.makeLink(f)}`,
+      };
+    });
+    map.sort((a, b) => b.index - a.index);
+
+    return {
+      status: 'success',
+      message: 'List of files',
+      data: map,
+    };
+  }
+
+  public async listMwcPath(payload: any): Promise<ListMwcResponse> {
+    const { path } = payload;
+
+    const dirExists = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${path}`);
+    if (!dirExists) {
+      return {
+        status: 'error',
+        message: 'Directory not found',
+        data: null,
+      };
+    }
+
+    const files = await fsp.readdir(`${process.env.MWC_FILE_PATH_DE}/${path}`);
     const videos = files.filter((f) => f.includes('.mp4'));
     const map = videos.map((f) => {
       return {

@@ -18,4 +18,9 @@ export class MwcController {
   private addHtml(payload: AddHtmlRequest): Promise<AddHtmlResponse> {
     return this.mwcService.addHtml(payload);
   }
+
+  @GrpcMethod(MWC_SERVICE_NAME, 'listMwcPath')
+  private listMwcPath(payload: any): Promise<ListMwcResponse> {
+    return this.mwcService.listMwcPath(payload);
+  }
 }
