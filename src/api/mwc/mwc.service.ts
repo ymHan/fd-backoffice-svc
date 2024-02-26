@@ -20,9 +20,9 @@ export class MwcService {
         message: 'file not found',
       };
     }
-    console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
-    console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
-    console.log(`${process.env.MWC_FILE_DOWNLOAD_PATH}/`);
+
+    await fsp.rm(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`, { force: true });
+    await fsp.rm(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`, { force: true });
     await fsp.cp(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`, `${process.env.MWC_FILE_DOWNLOAD_PATH}/`, {
       recursive: true,
     });
@@ -62,7 +62,7 @@ export class MwcService {
 
   private getDates() {
     const date = new Date().toISOString();
-    console.log(date);
+
     const formattedDate = date.split('T')[0];
 
     return formattedDate.replace(/-/g, '');
