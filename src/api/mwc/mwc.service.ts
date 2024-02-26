@@ -23,13 +23,10 @@ export class MwcService {
 
     await fsp.rm(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`, { force: true });
     await fsp.rm(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`, { force: true });
-    await fsp.cp(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`, `${process.env.MWC_FILE_DOWNLOAD_PATH}/`, {
-      recursive: true,
-    });
+    await fsp.cp(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`, `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`);
     await fsp.cp(
       `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`,
-      `${process.env.MWC_FILE_DOWNLOAD_PATH}/`,
-      { recursive: true },
+      `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`,
     );
 
     return {
