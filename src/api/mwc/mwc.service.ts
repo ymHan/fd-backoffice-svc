@@ -12,8 +12,8 @@ export class MwcService {
     const { filename } = payload;
     const mp4File = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
     const htmlFile = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
-
-    if (!mp4File || !htmlFile) {
+    console.log(mp4File, htmlFile, filename);
+    if (!mp4File && !htmlFile) {
       return {
         result: 'fail',
         status: 400,
