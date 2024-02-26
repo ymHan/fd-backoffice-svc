@@ -13,14 +13,6 @@ export class MwcService {
     const mp4File = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`);
     const htmlFile = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`);
 
-    if (!mp4File || !htmlFile) {
-      return {
-        result: 'fail',
-        status: 400,
-        message: 'file not found',
-      };
-    }
-
     if (!mp4File) {
       await fsp.cp(
         `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
