@@ -10,10 +10,10 @@ dotenv.config();
 export class MwcService {
   public async addHtml(payload: AddHtmlRequest): Promise<AddHtmlResponse> {
     const { filename } = payload;
-    const mp4File = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
-    const htmlFile = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
+    const mp4File = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`);
+    const htmlFile = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`);
 
-    if (!mp4File && !htmlFile) {
+    if (!mp4File || !htmlFile) {
       return {
         result: 'fail',
         status: 400,
@@ -21,13 +21,22 @@ export class MwcService {
       };
     }
 
-    await fsp.cp(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`, `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`);
-    await fsp.cp(
-      `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`,
-      `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`,
-    );
-    await fsp.chmod(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`, 0o755);
-    await fsp.chmod(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`, 0o755);
+    if (!mp4File) {
+      await fsp.cp(
+        `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
+        `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`,
+      );
+      await fsp.chmod(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`, 0o755);
+    }
+
+    if (!htmlFile) {
+      await fsp.cp(
+        `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`,
+        `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`,
+      );
+
+      await fsp.chmod(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`, 0o755);
+    }
 
     return {
       result: 'ok',
