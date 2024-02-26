@@ -23,13 +23,13 @@ export class MwcService {
     console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
     console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
     console.log(`${process.env.MWC_FILE_DOWNLOAD_PATH}/`);
-    await fsp.cp(
-      `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
-      `${process.env.MWC_FILE_DOWNLOAD_PATH}/`,
-    );
+    await fsp.cp(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`, `${process.env.MWC_FILE_DOWNLOAD_PATH}/`, {
+      recursive: true,
+    });
     await fsp.cp(
       `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`,
       `${process.env.MWC_FILE_DOWNLOAD_PATH}/`,
+      { recursive: true },
     );
 
     return {
@@ -37,7 +37,6 @@ export class MwcService {
       status: 200,
       message: 'success',
     };
-
   }
 
   public async listMwc(): Promise<ListMwcResponse> {
