@@ -12,7 +12,7 @@ export class MwcService {
     const { filename } = payload;
     const mp4File = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
     const htmlFile = fs.existsSync(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
-    console.log(mp4File, htmlFile, filename);
+
     if (!mp4File && !htmlFile) {
       return {
         result: 'fail',
@@ -20,7 +20,9 @@ export class MwcService {
         message: 'file not found',
       };
     }
-
+    console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`);
+    console.log(`${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename.split('.')[0]}.html`);
+    console.log(`${process.env.MWC_FILE_DOWNLOAD_PATH}/`);
     await fsp.cp(
       `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
       `${process.env.MWC_FILE_DOWNLOAD_PATH}/`,
