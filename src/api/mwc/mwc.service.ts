@@ -14,7 +14,7 @@ export class MwcService {
     const htmlFile = fs.existsSync(`${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename.split('.')[0]}.html`);
 
     if (!mp4File) {
-      // /src/app/download에 파일이 없으면 /tmp/ossfs-de/de-01/mwc/오늘날짜에 있는 파일을 /src/app/download로 mp4 및 html 파일 복사
+      // /src/app/download 에 파일이 없으면 /tmp/ossfs-de/de-01/mwc/오늘날짜에 있는 파일을 /src/app/download 로 mp4 및 html 파일 복사
       await fsp.cp(
         `${process.env.MWC_FILE_PATH_DE}/${this.getDates()}/${filename}`,
         `${process.env.MWC_FILE_DOWNLOAD_PATH}/${filename}`,
