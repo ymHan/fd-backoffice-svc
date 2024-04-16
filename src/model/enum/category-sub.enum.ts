@@ -15,4 +15,5 @@ export enum CategorySubEnum {
   TAEKWONDO = 'TAEKWONDO', // 태권도
   VOLLEYBALL = 'VOLLEYBALL', // 배구
   EVENT = 'EVENT', // 이벤트
+  SHORTTRACK = 'SHORTTRACK'
 }
