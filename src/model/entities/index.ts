@@ -6,3 +6,6 @@ export * from './venue.entity';
 export * from './video.entity';
 export * from './appversioning.entity';
 export * from './history-appversion.entity';
+
+
+export * from './ivod-process.entity';
