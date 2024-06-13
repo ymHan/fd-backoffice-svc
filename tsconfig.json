@@ -18,12 +18,15 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@/*": ["src/*"],
+      "@entities/*": ["src/model/entities/*"],
       "@root/*": ["./src/*"],
       "@model/*": ["./src/model/*"],
       "@proto/*": ["./src/proto/*"],
       "@config/*": ["./src/config/*"],
       "@filter/*": ["./src/filter/*"],
       "@common/*": ["./src/common/*"],
+      "@enum/*": ["./src/model/enum/*"],
     },
   }
 }
