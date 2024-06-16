@@ -10,6 +10,10 @@ import { CategoryModule } from './api/category/category.module';
 import { MwcModule } from './api/mwc/mwc.module';
 import { VideoModule } from '@root/api/video/video.module';
 import { AppVersionModule } from './api/appversioning/appversion.module';
+import { AccountModule } from './api/account/account.module';
+import { AuthModule } from './api/auth/auth.module';
+import { CommonCodeModule } from './api/commoncode/commoncode.module';
+import { ReportModule } from './api/report/report.module';
 import { ShortSxModule } from './api/shortsx/shortsx.module';
 
 @Module({
@@ -27,6 +31,10 @@ import { ShortSxModule } from './api/shortsx/shortsx.module';
     MwcModule,
     VideoModule,
     AppVersionModule,
+    AccountModule,
+    AuthModule,
+    CommonCodeModule,
+    ReportModule,
     ShortSxModule,
   ],
 })
