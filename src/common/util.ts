@@ -15,3 +15,19 @@ export function getEnumKeyByEnumValue<T extends { [index: string]: string }>(myE
   let keys = Object.keys(myEnum).filter((x) => myEnum[x] == enumValue);
   return keys.length > 0 ? keys[0] : null;
 }
+
+export const getBeforeDay = async (beforeday: number) => {
+  const today = new Date();
+  const day = today.getDate();
+  const calcDate = new Date(new Date().setDate(day - beforeday));
+  calcDate.setUTCHours(0, 0, 0, 0);
+  return calcDate;
+};
+
+export const getBeforeMonth = async (beforeMonth: number) => {
+  const today = new Date();
+  const month = today.getMonth();
+  const calcDate = new Date(new Date().setMonth(month - beforeMonth));
+  calcDate.setUTCHours(0, 0, 0, 0);
+  return calcDate;
+};

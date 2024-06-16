@@ -14,6 +14,7 @@ import { AccountModule } from './api/account/account.module';
 import { AuthModule } from './api/auth/auth.module';
 import { CommonCodeModule } from './api/commoncode/commoncode.module';
 import { ReportModule } from './api/report/report.module';
+import { DashBoardModule } from './api/dashboard/dashboard.module';
 import { ShortSxModule } from './api/shortsx/shortsx.module';
 
 @Module({
@@ -35,6 +36,7 @@ import { ShortSxModule } from './api/shortsx/shortsx.module';
     AuthModule,
     CommonCodeModule,
     ReportModule,
+    DashBoardModule,
     ShortSxModule,
   ],
 })
