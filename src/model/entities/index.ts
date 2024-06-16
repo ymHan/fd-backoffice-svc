@@ -36,3 +36,5 @@ export * from './backoffice/venue-backoffice.entity';
 export * from './backoffice/sector-venue-backoffice.entity';
 export * from './backoffice/country-backoffice.entity';
 export * from './backoffice/ivod-process.entity';
+
+export * from './ivod-process.entity';
