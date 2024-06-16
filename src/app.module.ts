@@ -14,6 +14,7 @@ import { AccountModule } from './api/account/account.module';
 import { AuthModule } from './api/auth/auth.module';
 import { CommonCodeModule } from './api/commoncode/commoncode.module';
 import { ReportModule } from './api/report/report.module';
+import { ShortSxModule } from './api/shortsx/shortsx.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ReportModule } from './api/report/report.module';
     AuthModule,
     CommonCodeModule,
     ReportModule,
+    ShortSxModule,
   ],
 })
 export class AppModule {}
