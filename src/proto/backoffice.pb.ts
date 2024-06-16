@@ -1,7 +1,9 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
+import { wrappers } from "protobufjs";
 import { Observable } from "rxjs";
 import { Empty } from "./google/protobuf/empty.pb";
+import { Struct } from "./google/protobuf/struct.pb";
 
 export const protobufPackage = "backoffice";
 
@@ -855,7 +857,346 @@ export interface AppVersionCreateResponse {
   message: string;
 }
 
+export interface ListShortSxResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: ListShortSxResponse_Data[];
+}
+
+export interface ListShortSxResponse_Data {
+  id: number;
+  filename: string;
+  filepath: string;
+  returnapi: string;
+}
+
+export interface DeleteShortSxRequest {
+  id: number;
+}
+
+export interface DeleteShortSxResponse {
+  result: string;
+  status: number;
+  message: string;
+}
+
+export interface SignInRequest {
+  email: string;
+  password: string;
+}
+
+export interface SignInResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: SignInResult[];
+}
+
+export interface SignInResult {
+  id?: number | undefined;
+  email?: string | undefined;
+  name?: string | undefined;
+  nickname?: string | undefined;
+  usertype?: string | undefined;
+  state?: string | undefined;
+  token?: string | undefined;
+  error?: string | undefined;
+}
+
+export interface GetUserRequest {
+  id: number;
+  authorization?: string | undefined;
+}
+
+export interface GetUserResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: GetUserResult[];
+}
+
+export interface GetUserResult {
+  id: number;
+  email: string;
+  name: string;
+  nickname: string;
+  usertype: string;
+  state: string;
+  isVerifiedEmail: boolean;
+  pushreceive: boolean;
+  emailreceive: boolean;
+  date: { [key: string]: any } | undefined;
+  channel: { [key: string]: any } | undefined;
+  profile: { [key: string]: any } | undefined;
+  videos: { [key: string]: any }[];
+  socials: { [key: string]: any }[];
+  notis: { [key: string]: any }[];
+  error?: string | undefined;
+}
+
+export interface GetUsersRequest {
+  page: number;
+  limit: number;
+  sort: string;
+  order: string;
+  keyword?: string | undefined;
+  authorization?: string | undefined;
+}
+
+export interface GetUsersResult {
+  id: number;
+  email: string;
+  password: string;
+  name: string;
+  nickname: string;
+  usertype: string;
+  pushreceive: boolean;
+  emailreceive: boolean;
+  state: string;
+  isVerifiedEmail: boolean;
+  date: { [key: string]: any } | undefined;
+  channel: { [key: string]: any } | undefined;
+  profile: { [key: string]: any } | undefined;
+  videos: { [key: string]: any }[];
+  socials: { [key: string]: any }[];
+}
+
+export interface GetUsersResponse {
+  result: string;
+  status: number;
+  message: string;
+  meta: Paging | undefined;
+  data: GetUsersResult[];
+}
+
+export interface UpdateRequest {
+  id: number;
+  password?: string | undefined;
+  name?: string | undefined;
+  nickname?: string | undefined;
+  usertype?: string | undefined;
+  pushreceive?: boolean | undefined;
+  emailreceive?: boolean | undefined;
+  state?: string | undefined;
+  isVerifiedEmail?: boolean | undefined;
+  authorization?: string | undefined;
+}
+
+export interface UpdateResult {
+  id: number;
+  password?: string | undefined;
+  name?: string | undefined;
+  nickname?: string | undefined;
+  usertype?: string | undefined;
+  pushreceive?: boolean | undefined;
+  emailreceive?: boolean | undefined;
+  state?: string | undefined;
+  isVerifiedEmail?: boolean | undefined;
+}
+
+export interface UpdateResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: UpdateResult[];
+}
+
+export interface UpdateProfileRequest {
+  id: number;
+  gender?: string | undefined;
+  photo?: string | undefined;
+  authorization?: string | undefined;
+}
+
+export interface UpdateProfileResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: UpdateProfileRequest[];
+}
+
+export interface UpdateChannelRequest {
+  id: number;
+  channelName?: string | undefined;
+  description?: string | undefined;
+  channelUrl?: string | undefined;
+  link?: string | undefined;
+  businessEmail?: string | undefined;
+  authorization?: string | undefined;
+}
+
+export interface UpdateChannelResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: UpdateChannelRequest[];
+}
+
+export interface UserUpdateVideoRequest {
+  id?: number | undefined;
+  email?: string | undefined;
+  title?: string | undefined;
+  subTitle?: string | undefined;
+  description?: string | undefined;
+  ownerName?: string | undefined;
+  ownerNickName?: string | undefined;
+  ownerChannelName?: string | undefined;
+  ownerProfileIconUrl?: string | undefined;
+  thumbnailUrl?: string | undefined;
+  viewCount?: number | undefined;
+  reportCount?: number | undefined;
+  likesCount?: number | undefined;
+  duration?: string | undefined;
+  category?: string | undefined;
+  categorySub?: string | undefined;
+  categorySubCode?: string | undefined;
+  recordType?: string | undefined;
+  nodeId?: string | undefined;
+  createdAt?: string | undefined;
+  isPublic?: boolean | undefined;
+  isStatus?: boolean | undefined;
+  isDeleted?: boolean | undefined;
+  userId: number;
+  authorization?: string | undefined;
+}
+
+export interface UserVideoResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: { [key: string]: any } | undefined;
+}
+
+export interface UserDeleteVideoRequest {
+  authorization?: string | undefined;
+  userid: number;
+  videoid: number;
+}
+
+export interface UpdateSocialRequest {
+  authorization?: string | undefined;
+  targetId: number;
+  id: number;
+  providerId: string;
+}
+
+export interface UpdateSocialResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: { [key: string]: any } | undefined;
+}
+
+export interface GetCommonCodeRequest {
+  authorization?: string | undefined;
+  groupCode: string;
+  code: string;
+}
+
+export interface GetCommonCodeResponse {
+  id: number;
+  groupCode: string;
+  code: string;
+  name: string;
+  isDeleted: boolean;
+  detail?: { [key: string]: any } | undefined;
+}
+
+export interface CommonCodeResponse {
+  result: string;
+  status: number;
+  message: string;
+  error?: string | undefined;
+  data: GetCommonCodeResponse[];
+}
+
+export interface GetCommonCodesRequest {
+  authorization?: string | undefined;
+}
+
+export interface PutCommonCodeRequest {
+  authorization?: string | undefined;
+  groupCode: string;
+  code: string;
+  name: string;
+  sort?: number | undefined;
+  kr?: string | undefined;
+  en?: string | undefined;
+  jp?: string | undefined;
+  ctkd?: string | undefined;
+}
+
+export interface ModCommonCodeRequest {
+  authorization?: string | undefined;
+  groupCode: string;
+  code: string;
+  newCode: string;
+  newName: string;
+  detailId?: number | undefined;
+  sort?: number | undefined;
+  kr?: string | undefined;
+  en?: string | undefined;
+  jp?: string | undefined;
+  ctkd?: string | undefined;
+}
+
+export interface GetItemDetailRequest {
+  authorization?: string | undefined;
+}
+
+export interface GetItemDetailResponse {
+  result: string;
+  status: number;
+  message: string;
+  error?: string | undefined;
+  data: GetItemDetail[];
+}
+
+export interface GetItemDetail {
+  groupCode: string;
+  code: string;
+  name: string;
+  ctkd: string;
+}
+
+export interface GetReportsRequest {
+  page: number;
+  limit: number;
+  sort: string;
+  order: string;
+  type?: string | undefined;
+  keyword?: string | undefined;
+  authorization?: string | undefined;
+}
+
+export interface GetReportRequest {
+  id: number;
+  authorization?: string | undefined;
+}
+
+export interface GetReportsResponse {
+  result: string;
+  status: number;
+  message: string;
+  meta: Paging | undefined;
+  data: { [key: string]: any }[];
+}
+
+export interface GetDashBoardAllRequest {
+  authorization?: string | undefined;
+}
+
+export interface GetDashBoardAllResponse {
+  result: string;
+  status: number;
+  message: string;
+  data: { [key: string]: any }[];
+}
+
 export const BACKOFFICE_PACKAGE_NAME = "backoffice";
+
+wrappers[".google.protobuf.Struct"] = { fromObject: Struct.wrap, toObject: Struct.unwrap } as any;
 
 /**
  * ******************************************************************************
@@ -1387,3 +1728,320 @@ export function AppVersionServiceControllerMethods() {
 }
 
 export const APP_VERSION_SERVICE_NAME = "AppVersionService";
+
+export interface Backoffice_ShortsX_ServiceClient {
+  listShortSx(request: Empty): Observable<ListShortSxResponse>;
+
+  deleteShortSx(request: DeleteShortSxRequest): Observable<DeleteShortSxResponse>;
+}
+
+export interface Backoffice_ShortsX_ServiceController {
+  listShortSx(request: Empty): Promise<ListShortSxResponse> | Observable<ListShortSxResponse> | ListShortSxResponse;
+
+  deleteShortSx(
+    request: DeleteShortSxRequest,
+  ): Promise<DeleteShortSxResponse> | Observable<DeleteShortSxResponse> | DeleteShortSxResponse;
+}
+
+export function Backoffice_ShortsX_ServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["listShortSx", "deleteShortSx"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("Backoffice_ShortsX_Service", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("Backoffice_ShortsX_Service", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const BACKOFFICE__SHORTS_X__SERVICE_NAME = "Backoffice_ShortsX_Service";
+
+/**
+ * ******************************************************************************
+ * Auth 서비스
+ * *******************************************************************************
+ */
+
+export interface AuthServiceClient {
+  signIn(request: SignInRequest): Observable<SignInResponse>;
+}
+
+/**
+ * ******************************************************************************
+ * Auth 서비스
+ * *******************************************************************************
+ */
+
+export interface AuthServiceController {
+  signIn(request: SignInRequest): Promise<SignInResponse> | Observable<SignInResponse> | SignInResponse;
+}
+
+export function AuthServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["signIn"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const AUTH_SERVICE_NAME = "AuthService";
+
+/**
+ * ******************************************************************************
+ * Account 서비스
+ * *******************************************************************************
+ */
+
+export interface AccountServiceClient {
+  getUsers(request: GetUsersRequest): Observable<GetUsersResponse>;
+
+  getUser(request: GetUserRequest): Observable<GetUserResponse>;
+
+  updateUser(request: UpdateRequest): Observable<UpdateResponse>;
+
+  deleteUser(request: GetUserRequest): Observable<UpdateResponse>;
+
+  updateProfile(request: UpdateProfileRequest): Observable<UpdateProfileResponse>;
+
+  updateChannel(request: UpdateChannelRequest): Observable<UpdateChannelResponse>;
+
+  updateVideo(request: UserUpdateVideoRequest): Observable<UserVideoResponse>;
+
+  deleteVideo(request: UserDeleteVideoRequest): Observable<UserVideoResponse>;
+
+  updateSocial(request: UpdateSocialRequest): Observable<UpdateSocialResponse>;
+}
+
+/**
+ * ******************************************************************************
+ * Account 서비스
+ * *******************************************************************************
+ */
+
+export interface AccountServiceController {
+  getUsers(request: GetUsersRequest): Promise<GetUsersResponse> | Observable<GetUsersResponse> | GetUsersResponse;
+
+  getUser(request: GetUserRequest): Promise<GetUserResponse> | Observable<GetUserResponse> | GetUserResponse;
+
+  updateUser(request: UpdateRequest): Promise<UpdateResponse> | Observable<UpdateResponse> | UpdateResponse;
+
+  deleteUser(request: GetUserRequest): Promise<UpdateResponse> | Observable<UpdateResponse> | UpdateResponse;
+
+  updateProfile(
+    request: UpdateProfileRequest,
+  ): Promise<UpdateProfileResponse> | Observable<UpdateProfileResponse> | UpdateProfileResponse;
+
+  updateChannel(
+    request: UpdateChannelRequest,
+  ): Promise<UpdateChannelResponse> | Observable<UpdateChannelResponse> | UpdateChannelResponse;
+
+  updateVideo(
+    request: UserUpdateVideoRequest,
+  ): Promise<UserVideoResponse> | Observable<UserVideoResponse> | UserVideoResponse;
+
+  deleteVideo(
+    request: UserDeleteVideoRequest,
+  ): Promise<UserVideoResponse> | Observable<UserVideoResponse> | UserVideoResponse;
+
+  updateSocial(
+    request: UpdateSocialRequest,
+  ): Promise<UpdateSocialResponse> | Observable<UpdateSocialResponse> | UpdateSocialResponse;
+}
+
+export function AccountServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = [
+      "getUsers",
+      "getUser",
+      "updateUser",
+      "deleteUser",
+      "updateProfile",
+      "updateChannel",
+      "updateVideo",
+      "deleteVideo",
+      "updateSocial",
+    ];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("AccountService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("AccountService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const ACCOUNT_SERVICE_NAME = "AccountService";
+
+/**
+ * ******************************************************************************
+ * CommonCode 서비스
+ * *******************************************************************************
+ */
+
+export interface CommonCodeServiceClient {
+  getCommonCodes(request: GetCommonCodesRequest): Observable<CommonCodeResponse>;
+
+  getCommonCode(request: GetCommonCodeRequest): Observable<CommonCodeResponse>;
+
+  putCommonCode(request: PutCommonCodeRequest): Observable<CommonCodeResponse>;
+
+  delCommonCode(request: GetCommonCodeRequest): Observable<CommonCodeResponse>;
+
+  modCommonCode(request: ModCommonCodeRequest): Observable<CommonCodeResponse>;
+
+  getDetailCode(request: GetItemDetailRequest): Observable<GetItemDetailResponse>;
+}
+
+/**
+ * ******************************************************************************
+ * CommonCode 서비스
+ * *******************************************************************************
+ */
+
+export interface CommonCodeServiceController {
+  getCommonCodes(
+    request: GetCommonCodesRequest,
+  ): Promise<CommonCodeResponse> | Observable<CommonCodeResponse> | CommonCodeResponse;
+
+  getCommonCode(
+    request: GetCommonCodeRequest,
+  ): Promise<CommonCodeResponse> | Observable<CommonCodeResponse> | CommonCodeResponse;
+
+  putCommonCode(
+    request: PutCommonCodeRequest,
+  ): Promise<CommonCodeResponse> | Observable<CommonCodeResponse> | CommonCodeResponse;
+
+  delCommonCode(
+    request: GetCommonCodeRequest,
+  ): Promise<CommonCodeResponse> | Observable<CommonCodeResponse> | CommonCodeResponse;
+
+  modCommonCode(
+    request: ModCommonCodeRequest,
+  ): Promise<CommonCodeResponse> | Observable<CommonCodeResponse> | CommonCodeResponse;
+
+  getDetailCode(
+    request: GetItemDetailRequest,
+  ): Promise<GetItemDetailResponse> | Observable<GetItemDetailResponse> | GetItemDetailResponse;
+}
+
+export function CommonCodeServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = [
+      "getCommonCodes",
+      "getCommonCode",
+      "putCommonCode",
+      "delCommonCode",
+      "modCommonCode",
+      "getDetailCode",
+    ];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("CommonCodeService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("CommonCodeService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const COMMON_CODE_SERVICE_NAME = "CommonCodeService";
+
+/**
+ * ******************************************************************************
+ * Report 서비스
+ * *******************************************************************************
+ */
+
+export interface ReportServiceClient {
+  getReports(request: GetReportsRequest): Observable<GetReportsResponse>;
+
+  getReport(request: GetReportRequest): Observable<GetReportsResponse>;
+}
+
+/**
+ * ******************************************************************************
+ * Report 서비스
+ * *******************************************************************************
+ */
+
+export interface ReportServiceController {
+  getReports(
+    request: GetReportsRequest,
+  ): Promise<GetReportsResponse> | Observable<GetReportsResponse> | GetReportsResponse;
+
+  getReport(
+    request: GetReportRequest,
+  ): Promise<GetReportsResponse> | Observable<GetReportsResponse> | GetReportsResponse;
+}
+
+export function ReportServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["getReports", "getReport"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("ReportService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("ReportService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const REPORT_SERVICE_NAME = "ReportService";
+
+/**
+ * ******************************************************************************
+ * Dashboard 서비스
+ * *******************************************************************************
+ */
+
+export interface DashBoardServiceClient {
+  getDashBoardAll(request: GetDashBoardAllRequest): Observable<GetDashBoardAllResponse>;
+}
+
+/**
+ * ******************************************************************************
+ * Dashboard 서비스
+ * *******************************************************************************
+ */
+
+export interface DashBoardServiceController {
+  getDashBoardAll(
+    request: GetDashBoardAllRequest,
+  ): Promise<GetDashBoardAllResponse> | Observable<GetDashBoardAllResponse> | GetDashBoardAllResponse;
+}
+
+export function DashBoardServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["getDashBoardAll"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("DashBoardService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("DashBoardService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const DASH_BOARD_SERVICE_NAME = "DashBoardService";
