@@ -20,6 +20,8 @@ import {
   UserVideoResponse,
   UpdateSocialRequest,
   UpdateSocialResponse,
+  UpdateChannelRequest,
+  UpdateChannelResponse,
 } from '@proto/backoffice.pb';
 
 @UseGuards(AuthGuard)
@@ -61,6 +63,13 @@ export class AccountController {
   @GrpcMethod(ACCOUNT_SERVICE_NAME, 'updateProfile')
   private updateProfile(payload: UpdateProfileRequest): Promise<UpdateProfileResponse> {
     return this.accountService.UpdateProfile(payload);
+  }
+
+  @UseGuards(RoleGuard)
+  @Roles(AccountRoles.ADMIN, AccountRoles.MANAGER)
+  @GrpcMethod(ACCOUNT_SERVICE_NAME, 'updateChannel')
+  private updateChannel(payload: UpdateChannelRequest): Promise<UpdateChannelResponse> {
+    return this.accountService.UpdateChannel(payload);
   }
 
   @UseGuards(RoleGuard)
